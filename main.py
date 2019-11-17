@@ -39,7 +39,7 @@ class MainTApp(App):
         x = TextInput()
         y = TextInput()
         submit = Button(text="Submit.")
-        submit.bind(on_press=self.graph(x.text,y.text))
+        submit.bind(on_press=self.graph(x.text.text, y.text.text))
         root.add_widget(c)
         self.im.keep_ratio = False
         self.im.allow_stretch = True
