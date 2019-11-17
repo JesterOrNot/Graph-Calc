@@ -34,30 +34,28 @@ class MainTApp(App):
 
     def build(self):
         root = GridLayout()
-        root.cols=3
-        root.rows=2
+        root.cols=4
         c = Imglayout()
         x = TextInput()
         y = TextInput()
         submit = Button(text="Submit.")
+        submit.bind(on_press=self.graph(x.text,y.text))
         root.add_widget(c)
         self.im.keep_ratio = False
         self.im.allow_stretch = True
         c.add_widget(self.im)
-        root.add_widget(x,2)
+        root.add_widget(x)
+        root.add_widget(y)
         root.add_widget(submit)
         return root
 
     def callback(self, value):
         self.im = Image(source='images/graph.png')
-
-
-def graph(x,y):
-    plt.plot(x, y)
-    plt.savefig("graph.png")
-    os.system("mv graph.png images")
+    def graph(self,x,y):
+        plt.plot(x, y)
+        plt.savefig("graph.png")
+        os.system("mv graph.png images")
 
 
 if __name__ == '__main__':
-    graph([1,2,3],[2,4,6])
     MainTApp().run()
