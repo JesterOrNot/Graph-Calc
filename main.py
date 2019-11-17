@@ -7,7 +7,9 @@ from kivy.graphics import Color, Rectangle
 from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.button import Button
 from kivy.uix.floatlayout import FloatLayout
+from kivy.uix.gridlayout import GridLayout
 from kivy.uix.image import Image
+from kivy.uix.textinput import TextInput
 from kivy.uix.widget import Widget
 
 
@@ -26,36 +28,36 @@ class Imglayout(FloatLayout):
         self.rect.size = instance.size
         self.rect.pos = instance.pos
 
-
 class MainTApp(App):
 
     im = Image(source='images/graph.png')
 
     def build(self):
-        root = BoxLayout(orientation='vertical')
+        root = GridLayout()
+        root.cols=3
+        root.rows=2
         c = Imglayout()
+        x = TextInput()
+        y = TextInput()
+        submit = Button(text="Submit.")
         root.add_widget(c)
-
         self.im.keep_ratio = False
         self.im.allow_stretch = True
-        cat = Button(text="Categories", size_hint=(1, .07))
-        cat.bind(on_press=self.callback)
         c.add_widget(self.im)
-        root.add_widget(cat)
+        root.add_widget(x,2)
+        root.add_widget(submit)
         return root
 
     def callback(self, value):
         self.im = Image(source='images/graph.png')
 
 
-def graph():
-    x = [1, 2, 3]
-    y = [2, 4, 6]
+def graph(x,y):
     plt.plot(x, y)
     plt.savefig("graph.png")
     os.system("mv graph.png images")
 
 
 if __name__ == '__main__':
-    graph()
+    graph([1,2,3],[2,4,6])
     MainTApp().run()
