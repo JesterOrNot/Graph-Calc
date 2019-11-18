@@ -5,6 +5,7 @@ import matplotlib.pyplot as plt
 from kivy.app import App
 from kivy.graphics import Color, Rectangle
 from kivy.uix.boxlayout import BoxLayout
+import numpy as np
 from kivy.uix.button import Button
 from kivy.uix.floatlayout import FloatLayout
 from kivy.uix.gridlayout import GridLayout
@@ -28,17 +29,17 @@ class Imglayout(FloatLayout):
         self.rect.size = instance.size
         self.rect.pos = instance.pos
 
+
 class MainTApp(App):
 
     im = Image(source='images/graph.png')
+
     def build(self):
         self.root = GridLayout()
-        self.root.cols=4
+        self.root.cols = 4
         c = Imglayout()
         global x
         self.x = TextInput()
-        global y
-        self.y = TextInput()
         submit = Button(text="Submit.")
         submit.bind(on_press=self.callback)
         self.root.add_widget(c)
@@ -46,25 +47,20 @@ class MainTApp(App):
         self.im.allow_stretch = True
         c.add_widget(self.im)
         self.root.add_widget(self.x)
-        self.root.add_widget(self.y)
         self.root.add_widget(submit)
         return self.root
-    # def duo(self,x,y):
-    #     self.graph(x,y)
-    #     return self.callback(2)
+
     def callback(self, value):
-        # nonlocal x
-        x1 = self.x.text.split(",")
-        # nonlocal y
-        y1 = self.x.text.split(",")
-        x = [float(i) for i in x1]
-        y = [float(i) for i in y1]
-        plt.scatter(x,y)
+        x = np.linspace(-10, 10)
+        y = eval(self.x.text)
+        plt.plot(x, y)
+        os.system("rm images/graph.png")
         plt.savefig("graph.png")
         os.system("mv graph.png images")
         self.im.source = 'images/graph.png'
         self.root.remove_widget(self.im)
         self.im.reload()
+
 
 if __name__ == '__main__':
     MainTApp().run()
