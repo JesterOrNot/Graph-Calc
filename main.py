@@ -31,31 +31,40 @@ class Imglayout(FloatLayout):
 class MainTApp(App):
 
     im = Image(source='images/graph.png')
-
     def build(self):
-        root = GridLayout()
-        root.cols=4
+        self.root = GridLayout()
+        self.root.cols=4
         c = Imglayout()
-        x = TextInput()
-        y = TextInput()
+        global x
+        self.x = TextInput()
+        global y
+        self.y = TextInput()
         submit = Button(text="Submit.")
-        submit.bind(on_press=self.graph(x.text.text, y.text.text))
-        root.add_widget(c)
+        submit.bind(on_press=self.callback)
+        self.root.add_widget(c)
         self.im.keep_ratio = False
         self.im.allow_stretch = True
         c.add_widget(self.im)
-        root.add_widget(x)
-        root.add_widget(y)
-        root.add_widget(submit)
-        return root
-
+        self.root.add_widget(self.x)
+        self.root.add_widget(self.y)
+        self.root.add_widget(submit)
+        return self.root
+    # def duo(self,x,y):
+    #     self.graph(x,y)
+    #     return self.callback(2)
     def callback(self, value):
-        self.im = Image(source='images/graph.png')
-    def graph(self,x,y):
-        plt.plot(x, y)
+        # nonlocal x
+        x1 = self.x.text.split(",")
+        # nonlocal y
+        y1 = self.x.text.split(",")
+        x = [float(i) for i in x1]
+        y = [float(i) for i in y1]
+        plt.plot(x,y)
         plt.savefig("graph.png")
         os.system("mv graph.png images")
-
+        self.im.source = 'images/graph.png'
+        self.root.remove_widget(self.im)
+        self.im.reload()
 
 if __name__ == '__main__':
     MainTApp().run()
