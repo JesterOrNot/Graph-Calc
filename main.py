@@ -59,7 +59,7 @@ class MainTApp(App):
         y1 = self.x.text.split(",")
         x = [float(i) for i in x1]
         y = [float(i) for i in y1]
-        plt.plot(x,y)
+        plt.scatter(x,y)
         plt.savefig("graph.png")
         os.system("mv graph.png images")
         self.im.source = 'images/graph.png'

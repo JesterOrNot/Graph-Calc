@@ -3,8 +3,11 @@ image:
 
 # List the ports you want to expose and what to do when they are served. See https://www.gitpod.io/docs/43_config_ports/
 ports:
-- port: 3000
+- port: 6080
+- port: 5900
+- port: 35900
 
 # List the start up tasks. You can start them in parallel in multiple terminals. See https://www.gitpod.io/docs/44_config_start_tasks/
 tasks:
 - init: pip3 install -r requirements.txt
+  command: python3 main.py
