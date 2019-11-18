@@ -1,5 +1,6 @@
 import fileinput
 import os
+import shutil
 
 import matplotlib.pyplot as plt
 import numpy as np
@@ -35,6 +36,10 @@ class MainTApp(App):
     im = Image(source='images/graph.png')
 
     def build(self):
+        try:
+            os.remove("images/graph.png")
+        except Exception:
+            pass
         self.root = GridLayout()
         self.root.cols = 4
         c = Imglayout()
@@ -42,25 +47,26 @@ class MainTApp(App):
         self.x = TextInput()
         submit = Button(text="Submit.")
         submit.bind(on_press=self.callback)
-        submit.bind(on_press=self.myfunc)
+        # submit.bind(on_press=self.myfunc)
         self.root.add_widget(c)
-        self.im.keep_ratio = False
+        self.im.keep_ratio = True
         self.im.allow_stretch = True
         c.add_widget(self.im)
         self.root.add_widget(self.x)
         self.root.add_widget(submit)
         return self.root
-    def myfunc(self,instance):
-        os.system("rm images/graph.png")
+    def callback(self, instance):
+        try:
+            os.remove("images/graph.png")
+            shutil.move("graph.png", "images")
+        except Exception:
+            pass
         x = np.linspace(-10, 10)
         y = eval(self.x.text)
         plt.plot(x, y)
-        os.system("rm images/graph.png")
         plt.savefig("graph.png")
-        os.system("mv graph.png images")
-    def callback(self, instance):
         self.im.source = 'images/graph.png'
-        # self.root.remove_widget(self.im)
+        self.root.remove_widget(self.im)
         self.im.reload()
 
 
