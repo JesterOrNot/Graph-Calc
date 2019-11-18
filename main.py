@@ -42,6 +42,7 @@ class MainTApp(App):
         self.x = TextInput()
         submit = Button(text="Submit.")
         submit.bind(on_press=self.callback)
+        submit.bind(on_press=self.myfunc)
         self.root.add_widget(c)
         self.im.keep_ratio = False
         self.im.allow_stretch = True
@@ -49,16 +50,17 @@ class MainTApp(App):
         self.root.add_widget(self.x)
         self.root.add_widget(submit)
         return self.root
-
-    def callback(self, value):
+    def myfunc(self,instance):
+        os.system("rm images/graph.png")
         x = np.linspace(-10, 10)
         y = eval(self.x.text)
         plt.plot(x, y)
         os.system("rm images/graph.png")
         plt.savefig("graph.png")
         os.system("mv graph.png images")
+    def callback(self, instance):
         self.im.source = 'images/graph.png'
-        self.root.remove_widget(self.im)
+        # self.root.remove_widget(self.im)
         self.im.reload()
 
 
