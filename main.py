@@ -2,10 +2,10 @@ import fileinput
 import os
 
 import matplotlib.pyplot as plt
+import numpy as np
 from kivy.app import App
 from kivy.graphics import Color, Rectangle
 from kivy.uix.boxlayout import BoxLayout
-import numpy as np
 from kivy.uix.button import Button
 from kivy.uix.floatlayout import FloatLayout
 from kivy.uix.gridlayout import GridLayout
